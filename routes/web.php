@@ -99,3 +99,38 @@ Passando dados pela rota
 */
 
 Route::view('/view','home',['nome'=>'Ivan Rodrigues']);
+
+
+
+//parametros de rotas 
+
+Route::get('/valor/{value}',[MainController::class,'mostrarValor']);
+
+Route::get('/valores/{value1}/{value2}',[MainController::class,'mostrarValores']);
+
+//rota com valores opcionais, quam dedine se o valor é opcional ou não é ponto de interrogação no final dele 
+
+Route::get('/opcional/{value1?}',[MainController::class,'mostrarValorOpcional']);
+
+//no caso dessa rota tem um valor opcional e outro obrigatorio 
+
+Route::get('/opcional2/{value1}/{value?}',[MainController::class,'mostrarValorOpcional2']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
