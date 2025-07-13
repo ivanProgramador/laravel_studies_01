@@ -1,0 +1,6 @@
+artisan make:controller Main
+
+//comando para listar todas as rotas definidas dentro do sistema 
+//pode ser util pra idntificar os tipos de rotas ou se ela forma definidas de forma correta 
+
+php artisan route:list

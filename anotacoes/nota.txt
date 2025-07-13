@@ -1,0 +1,2 @@
+Comando para identificar a versão do laravel 
+ php artisan --version

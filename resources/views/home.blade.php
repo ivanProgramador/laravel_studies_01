@@ -1,6 +1,10 @@
 @extends('layouts.main_layout')
 @section('content')
 
-<p class="display-6 text-secondary text-center py-5">CONTENT</p>
+{{-- Apresentando meu nome na view --}}
+
+@if(!empty($nome))
+   <p>{{$nome}}</p>
+@endif
 
 @endsection
