@@ -116,6 +116,70 @@ Route::get('/opcional/{value1?}',[MainController::class,'mostrarValorOpcional'])
 
 Route::get('/opcional2/{value1}/{value?}',[MainController::class,'mostrarValorOpcional2']);
 
+//Rota com restrições (constraints)
+/*
+ Isso serve para um contexto onde eu precise definir uma rota que espera apenas numeros 
+ ou letras, por exemplo se eu queiser receber apenas o id de um usuario eu preciso denfinir
+ uma restrição que impeça que qualquer outro dado alem desse seja porcessado pelo controller
+ associado a essa rota.
+ 
+ Para definirr uma restrição desse tipo eu tenho que usarr a função "where()" essa função recebe 
+ 2 parametros:
+
+ 1 - oque eu vou avaliar 
+ 2 - oque eu quero receber  
+
+  No caso eu vou avaliar o value, e quero recber numeros 1 a 9 ou maiores. Como não exsitem letras 
+  inclusas no segundo parametro se o usuario enviar ele vai receber um 404 indiica que a rota não foi 
+  encontrada.    
+*/
+
+//apenas numeros 
+Route::get('/exp1/{value}',function($value){
+   echo $value;
+})->where('value','[1-9]+');
+
+//strings alfa numericas na função where diz que a rota pode receber 
+//letras  a a z maiusculas e minusculas e numerros dde 1 a 9 ou maiores que isso
+//mas não aceita caracteres especiais.
+
+Route::get('/exp2/{value}',function($value){
+   echo $value;
+})->where('value','[A-Z a-z 1-9]+');
+
+
+//definindo restriçoes para cada parametro da rota 
+//no caso a função Where recebe um array associativo
+//e define as regas de restrição de forma separada para cada valor  
+
+Route::get('/exp3/{value1}/{value2}',function($value){
+   echo $value;
+})->where([
+   'value1'=>'[1-9]+',
+   'value2'=>'[A-Z a-z 1-9]+'
+]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
