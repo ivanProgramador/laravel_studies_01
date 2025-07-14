@@ -9,3 +9,15 @@ php artisan route:list
 //comando que cria middleware 
 
 php artisan make:middleware onlyAdmin
+
+//criando um controlador de ação unica
+
+php artisan make:controller SingleActionController --invokable
+
+//criando um controller que ja vem com alguns metodos crud pre-definidos
+//na verdade não são metodos funcionais mas ja ajuda não ter que digitar função por função 
+//manualemente 
+
+php artisan make:controller UserController --resource
+
+

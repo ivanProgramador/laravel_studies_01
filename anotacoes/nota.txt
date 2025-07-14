@@ -1,2 +1,7 @@
 Comando para identificar a versão do laravel 
  php artisan --version
+
+ Quando for usar Rota sempre virificar se esse namespace esta no arquivo
+ porque se não estiver o metodo get não vai ser reconhecido
+   
+ use Illuminate\Support\Facades\Route;  
