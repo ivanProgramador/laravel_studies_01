@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\onlyAdmin;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -158,6 +160,90 @@ Route::get('/exp3/{value1}/{value2}',function($value){
    'value1'=>'[1-9]+',
    'value2'=>'[A-Z a-z 1-9]+'
 ]);
+
+
+/*
+Rotas nomeadas 
+ É uma concewito usado dentro do framework laravel, dar nome a uma rota permite que mesmo 
+ que a url ddela mude ela possa ser chamada pelo nome, abaixo eu teho uma rota com o nome home
+ que pode ser usada em um redirecionamento, seja em um controller ou em um link de formulario.    
+ Se por algum motivo a url dela for alterada o roteamento vai continuar funcionando porque ele 
+ esta ligado ao nome 'home' e não a url da rota.
+
+
+ Route::('/home',function(){
+
+    echo'home';
+
+ })->name('home');
+
+ ATENÇÃO! isso só funciona dentro do laravel na aplicação, o servidor não processa isso fora do laravel.
+
+*/
+
+
+/*
+Rotas agrupadas
+ No contexto de um sistema administrativo exstem rotas que são restritas aos administradores 
+ nesse caso eu posso definirr um prefixo que coloque todas essas rotas em um unico grupo  
+*/
+
+Route::prefix('/admin')->group(function(){
+    Route::get('/home',[MainController::class,'home']);
+    Route::get('/about',[MainController::class,'about']);
+    Route::get('/gerenciamento',[MainController::class,'mostrarValor']);
+});
+
+/*
+ O uso do prefix evita que eu tenha que colocar '/admin/home' ou '/admin/about' 
+ em cada uma delas, mas o agrupamento não serve somente pra isso isso temabm possilita 
+ que eu submeta todo um grupo de rota a um middleware para autenticar o usuario, no middleware
+ eu posso ter um codigo que verifica se a hierarqui dele permite o acesso a esse grupo de rotas
+ evitando que tenha que escrver varias altenticações para cada rota dessas
+
+ abaixo um exemplo de como fazer isso  
+ 
+*/
+
+Route::middleware([onlyAdmin::class])->group(function(){
+
+    Route::get('/home',[MainController::class,'home']);
+    Route::get('/about',[MainController::class,'about']);
+    Route::get('/gerenciamento',[MainController::class,'mostrarValor']);
+
+});
+
+/*
+  Eu também posso usar agrupamento para distribuir o acesso a um controller
+  a exemplo dessas rotas abaixo eu so preciso dizer a url e o metodo porque 
+  todas elas ja estão submetidas no contexto do  'UserController'
+*/
+
+Route::controller(UserController::class)->group(function(){
+  Route::get('/user','novo');
+  Route::get('/user','edit');
+  Route::get('/user','delete');
+
+});
+
+//caso o usario de sistema entrre em auma rota que não existe 
+//uma boa pratica e responder ele de um jeito que ele entenda
+//pra isso eu posso usar uma função de fall back 
+//estou retronando um texto mas poderia ser uma view 
+
+Route::fallback(function(){
+   echo'A página solicitada não existe nesse sistema';
+});
+
+
+
+
+
+
+
+
+
+
 
 
 

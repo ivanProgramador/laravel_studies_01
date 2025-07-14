@@ -4,3 +4,8 @@ artisan make:controller Main
 //pode ser util pra idntificar os tipos de rotas ou se ela forma definidas de forma correta 
 
 php artisan route:list
+
+
+//comando que cria middleware 
+
+php artisan make:middleware onlyAdmin
