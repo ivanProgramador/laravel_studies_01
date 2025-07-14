@@ -83,6 +83,57 @@ Route::middleware([startMiddleware::class, endMiddleware::class])->group(functio
 */
 
 Middlewares Globais 
+ Para adiconar middlewares globais isso tem que ser feito no arquivo "bootstrap/app.php" lá dentro 
+ tem algumas funções de inicialização.mas a função que interessa e a funcção abaixo dentro desaa função 
+ eu tenho o metodo preepend e o metodo append que decidem se um middleware sera executado antes ou depois 
+ da requisição, uma vez declado nessa função eu não preciso mais colocar o middleware diretamente nas rotas
+ quando app inicializar ele ja sabe opque deve fazer em cada reuisição, por conta dessa configuração.   
+
+ -----------------------------------------------------------------------------------
+
+ ->withMiddleware(function (Middleware $middleware) {
+        //adicionando middlewares globais para executar antes das rotas
+        $middleware->prepend([
+            startMiddleware::class,
+            endMiddleware::class
+        ]); 
+
+        ////adicionando middlewares globais para executar depois das requisições das rotas
+        
+          $middleware->append([
+            startMiddleware::class,
+            endMiddleware::class
+        ]); 
+
+
+
+
+    })
+----------------------------------------------------------------------------------------------
+E eu tambem posso definir um group para ser afetado por um ou mais middlewares 
+------------------------------------------------------------------------------------------
+/*
+         Criando um grupo especifico para ser afetado um um middleware global 
+*/
+
+         $middleware->prependToGroup('executar_antes',[
+            startMiddleware::class
+         ]);
+------------------------------------------------------------------------------------------
+usando o grupo nas rotas 
+
+Route::middleware(['exeucutar_antes'])->group(function(){
+
+   Route::get('/',[MainController::class,'index'])->name('index');
+   Route::get('/about',[MainController::class,'about'])->name('about');
+   Route::get('/contact',[MainController::class,'contact'])->name('contact');
+
+
+});
+
+
+
+
 
 
 
