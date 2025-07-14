@@ -4,4 +4,15 @@ Comando para identificar a versão do laravel
  Quando for usar Rota sempre virificar se esse namespace esta no arquivo
  porque se não estiver o metodo get não vai ser reconhecido
    
- use Illuminate\Support\Facades\Route;  
+ use Illuminate\Support\Facades\Route; 
+
+ Dependendo da necessidade do projeto as vezes é necessário dividir 
+ os controllers em subpastas o çaravel pode fazer a criação da subpasta e colocar 
+ controller dentro com o comando. 
+
+ nesse caso ele vai criar a pasta admim e coloacar o controller dentro dela       
+
+ php artisan make:controller admin/AdminControlller
+
+ para usar ele nas rotas não tem neenhuma diferença contanto que ele seja importado 
+ para o aruivo da forma correta   

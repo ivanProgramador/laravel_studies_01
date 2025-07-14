@@ -5,14 +5,4 @@ use App\Http\Controllers\SingleActionController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/init',[MainController::class,'initMethod'])->name('init');
-
-
-Route::get('/view',[MainController::class,'viewPage'])->name('view');
-
-//chamando um controller de ação unica na rota 
-//no caso eu não preciso usar o array para especificar 
-//esse tipo de ccontroller de ação unica da para importar por padrão 
-
-Route::get('/single', SingleActionController::class);
 
