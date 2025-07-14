@@ -14,5 +14,81 @@ Comando para identificar a versão do laravel
 
  php artisan make:controller admin/AdminControlller
 
- para usar ele nas rotas não tem neenhuma diferença contanto que ele seja importado 
- para o aruivo da forma correta   
+ para usar ele nas rotas não tem nenhuma diferença contanto que ele seja importado 
+ para o aruivo da forma correta 
+
+
+Controller base
+ 
+ O laravel ven com um controller já criado dentro da pasta do controllers, mas ele não esta lá 
+ somente para servidor de exemplo, todos os controllers cridos pelo usuario são uma extenção dele
+ isso significa que , se um metodo for criado dentro desse controller base ele pode ser usado nos 
+ outros controllers.
+
+Middlewares 
+ Nem sempre os middlewares são executado antes da reuisição chegar no controller exeitem middlewares 
+ que são configurados para executar depois que a requisição acontece por exemplo , nesse projeto, eu 
+ tenho o startMiddleWare e o endMiddleware que eu criei para testar isso. 
+
+ como avisar ao endMiddleware que ele via ser executado somenrte depois da request ?
+
+ no caso eu faço isso dentro dele o next é qualquer voisa executada depois da requisição
+ então eu pego o reponse e faço uma atribuição ondeu preeencho o next com a request então 
+ se o next já foi preechido é porque a reuisição ja aconteceu.
+
+ então embaixo dessa atraibuição coloco um echo pra mostrar um texto e por fim eu retrono 
+ um reponse. assim ele entende que so vai se excutado depois que uma requisição for feita
+ e preecher o next    
+
+ ---------------------------------------------------------------------------------------------------
+ class endMiddleware
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        $response = $next($request);
+
+       echo'<p>End Middleware</p>';
+
+        return $response;
+    }
+}
+-----------------------------------------------------------------------------
+
+Um Middleware executado depois de uma requisição pode ser usado para enviar um e-mail quando alguem 
+acessar um determinada página, ou fizer login em uma conta especifica. dependendo do contexto.   
+
+Aqui eu adiciono middlewares nas minhas rotas 
+/*
+    Route::get('/',[MainController::class,'index'])->name('index')->middleware(startMiddleware::class);
+    Route::get('/about',[MainController::class,'about'])->name('about')->middleware(endMiddleware::class);
+    Route::get('/contact',[MainController::class,'contact'])->name('contact')->middleware(endMiddleware::class);
+*/
+
+//nesse caso eu quero que todas as rotas sejam afetadas pelos middlewares menos a rota about 
+/*
+Route::middleware([startMiddleware::class, endMiddleware::class])->group(function(){
+
+    Route::get('/',[MainController::class,'index'])->name('index');
+
+    Route::get('/about',[MainController::class,'about'])->name('about')->withoutMiddleware([endMiddleware::class,startMiddleware::class]);
+
+    Route::get('/contact',[MainController::class,'contact'])->name('contact');
+
+});
+*/
+
+Middlewares Globais 
+
+
+
+
+
+
+
+ 
+
